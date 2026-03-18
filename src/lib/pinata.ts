@@ -14,7 +14,7 @@ export const uploadImageToIPFS = async (file: File): Promise<string> => {
 
   if (!res.ok) throw new Error("Failed to upload image to IPFS");
   const data = await res.json();
-  return `https://gateway.pinata.cloud/ipfs/${data.IpfsHash}`;
+  return `https://blue-mad-hippopotamus-949.mypinata.cloud/ipfs/${data.IpfsHash}`;
 };
 
 export const uploadMetadataToIPFS = async (
@@ -34,5 +34,5 @@ export const uploadMetadataToIPFS = async (
 
   if (!res.ok) throw new Error("Failed to upload metadata to IPFS");
   const data = await res.json();
-  return `https://gateway.pinata.cloud/ipfs/${data.IpfsHash}`;
+  return `https://blue-mad-hippopotamus-949.mypinata.cloud/ipfs/${data.IpfsHash}`;
 };
