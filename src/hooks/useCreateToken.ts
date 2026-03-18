@@ -101,19 +101,15 @@ export const useCreateToken = () => {
 
       // ── Kirim service fee ──
       setStatus("sending_fee");
-      if (TREASURY_WALLET) {
-        try {
-          const feeTx = new Transaction().add(
-            SystemProgram.transfer({
-              fromPubkey: walletPublicKey,
-              toPubkey: new PublicKey(TREASURY_WALLET),
-              lamports: Math.floor(SERVICE_FEES.createToken * LAMPORTS_PER_SOL),
-            }),
-          );
-          await sendTx(feeTx, connection);
-        } catch (feeErr) {
-          console.warn("Service fee failed, continuing...", feeErr);
-        }
+      if (TREASURY_WALLET && SERVICE_FEES.createToken > 0) {
+        const feeTx = new Transaction().add(
+          SystemProgram.transfer({
+            fromPubkey: walletPublicKey,
+            toPubkey: new PublicKey(TREASURY_WALLET),
+            lamports: Math.floor(SERVICE_FEES.createToken * LAMPORTS_PER_SOL),
+          }),
+        );
+        await sendTx(feeTx, connection);
       }
 
       // ── Create token ──

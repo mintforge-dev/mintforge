@@ -11,11 +11,11 @@ export const NETWORKS = {
 export const TREASURY_WALLET = process.env.NEXT_PUBLIC_TREASURY_WALLET || "";
 
 export const SERVICE_FEES = {
-  createToken: parseFloat(process.env.NEXT_PUBLIC_FEE_CREATE_TOKEN || "0.05"),
-  cloneToken: parseFloat(process.env.NEXT_PUBLIC_FEE_CLONE_TOKEN || "0.05"),
-  addLiquidity: parseFloat(process.env.NEXT_PUBLIC_FEE_ADD_LIQUIDITY || "0.1"),
-  revoke: parseFloat(process.env.NEXT_PUBLIC_FEE_REVOKE || "0.01"),
-  updateMeta: parseFloat(process.env.NEXT_PUBLIC_FEE_UPDATE_META || "0.01"),
+  createToken: parseFloat(process.env.NEXT_PUBLIC_FEE_CREATE_TOKEN || "0"),
+  cloneToken: parseFloat(process.env.NEXT_PUBLIC_FEE_CLONE_TOKEN || "0"),
+  addLiquidity: parseFloat(process.env.NEXT_PUBLIC_FEE_ADD_LIQUIDITY || "0"),
+  revoke: parseFloat(process.env.NEXT_PUBLIC_FEE_REVOKE || "0"),
+  updateMeta: parseFloat(process.env.NEXT_PUBLIC_FEE_UPDATE_META || "0"),
 };
 
 export const LAMPORTS_PER_SOL = 1_000_000_000;

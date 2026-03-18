@@ -118,19 +118,15 @@ export const useCloneToken = () => {
 
       // Service fee
       setStatus("sending_fee");
-      if (TREASURY_WALLET) {
-        try {
-          const feeTx = new Transaction().add(
-            SystemProgram.transfer({
-              fromPubkey: walletPublicKey,
-              toPubkey: new PublicKey(TREASURY_WALLET),
-              lamports: Math.floor(SERVICE_FEES.cloneToken * LAMPORTS_PER_SOL),
-            }),
-          );
-          await sendTx(feeTx, connection);
-        } catch {
-          console.warn("Service fee failed, continuing...");
-        }
+      if (TREASURY_WALLET && SERVICE_FEES.cloneToken > 0) {
+        const feeTx = new Transaction().add(
+          SystemProgram.transfer({
+            fromPubkey: walletPublicKey,
+            toPubkey: new PublicKey(TREASURY_WALLET),
+            lamports: Math.floor(SERVICE_FEES.cloneToken * LAMPORTS_PER_SOL),
+          }),
+        );
+        await sendTx(feeTx, connection);
       }
 
       // Clone = Create token baru dengan metadata dari token asli

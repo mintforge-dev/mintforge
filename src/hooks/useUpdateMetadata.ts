@@ -265,19 +265,15 @@ export const useUpdateMetadata = () => {
 
       // Service fee
       setStatus("sending_fee");
-      if (TREASURY_WALLET) {
-        try {
-          const feeTx = new Transaction().add(
-            SystemProgram.transfer({
-              fromPubkey: walletPublicKey,
-              toPubkey: new PublicKey(TREASURY_WALLET),
-              lamports: Math.floor(SERVICE_FEES.updateMeta * LAMPORTS_PER_SOL),
-            }),
-          );
-          await sendTx(feeTx, connection);
-        } catch {
-          console.warn("Service fee failed, continuing...");
-        }
+      if (TREASURY_WALLET && SERVICE_FEES.updateMeta > 0) {
+        const feeTx = new Transaction().add(
+          SystemProgram.transfer({
+            fromPubkey: walletPublicKey,
+            toPubkey: new PublicKey(TREASURY_WALLET),
+            lamports: Math.floor(SERVICE_FEES.updateMeta * LAMPORTS_PER_SOL),
+          }),
+        );
+        await sendTx(feeTx, connection);
       }
 
       // Build UpdateMetadataAccountV2 instruction

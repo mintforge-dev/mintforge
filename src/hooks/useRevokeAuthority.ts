@@ -196,19 +196,15 @@ export const useRevokeAuthority = () => {
       setError(null);
 
       // Service fee
-      if (TREASURY_WALLET) {
-        try {
-          const feeTx = new Transaction().add(
-            SystemProgram.transfer({
-              fromPubkey: walletPublicKey,
-              toPubkey: new PublicKey(TREASURY_WALLET),
-              lamports: Math.floor(SERVICE_FEES.revoke * LAMPORTS_PER_SOL),
-            }),
-          );
-          await sendTx(feeTx, connection);
-        } catch {
-          console.warn("Service fee failed, continuing...");
-        }
+      if (TREASURY_WALLET && SERVICE_FEES.revoke > 0) {
+        const feeTx = new Transaction().add(
+          SystemProgram.transfer({
+            fromPubkey: walletPublicKey,
+            toPubkey: new PublicKey(TREASURY_WALLET),
+            lamports: Math.floor(SERVICE_FEES.revoke * LAMPORTS_PER_SOL),
+          }),
+        );
+        await sendTx(feeTx, connection);
       }
 
       if (authorityType === "mint") {
