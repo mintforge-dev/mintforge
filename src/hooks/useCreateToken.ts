@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useConnection } from "@solana/wallet-adapter-react";
+import { useNetwork } from "@/components/WalletProvider";
 import { PublicKey, Transaction, Connection, Keypair } from "@solana/web3.js";
 import {
   createToken,

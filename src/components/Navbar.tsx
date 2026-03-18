@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import WalletButton from "./WalletButton";
+import { useNetwork } from "./WalletProvider";
 
 const NAV_MENUS = [
   {
@@ -119,6 +120,7 @@ const NAV_MENUS = [
 export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const { network, setNetwork } = useNetwork();
 
   // Close on outside click
   useEffect(() => {
@@ -372,15 +374,40 @@ export default function Navbar({ onMenuClick }: { onMenuClick: () => void }) {
           }}
         >
           <div
+            onClick={() =>
+              setNetwork(network === "mainnet" ? "devnet" : "mainnet")
+            }
+            title={`Switch to ${network === "mainnet" ? "Devnet" : "Mainnet"}`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              background:
+                network === "mainnet"
+                  ? "rgba(34,197,94,0.1)"
+                  : "rgba(234,179,8,0.1)",
+              border: `1px solid ${network === "mainnet" ? "rgba(34,197,94,0.3)" : "rgba(234,179,8,0.3)"}`,
+              borderRadius: "20px",
+              padding: "5px 12px",
+              fontSize: "12px",
+              fontFamily: "var(--font-mono)",
+              color: network === "mainnet" ? "var(--green)" : "var(--yellow)",
+              cursor: "pointer",
+              transition: "all 0.2s",
+              userSelect: "none" as const,
+            }}
+          />
+          <div
             style={{
               width: "6px",
               height: "6px",
-              background: "var(--green)",
+              background:
+                network === "mainnet" ? "var(--green)" : "var(--yellow)",
               borderRadius: "50%",
               animation: "pulse 2s infinite",
             }}
           />
-          Devnet
+          {network === "mainnet" ? "● Mainnet" : "● Devnet"}
         </div>
         <WalletButton />
         {/* Hamburger */}

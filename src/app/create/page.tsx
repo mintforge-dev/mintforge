@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useCreateToken, CreateTokenStatus } from "@/hooks/useCreateToken";
 import Link from "next/link";
 import WalletButton from "@/components/WalletButton";
+import { useNetwork } from "@/components/WalletProvider";
 
 const STATUS_MESSAGES: Record<CreateTokenStatus, string> = {
   idle: "",
@@ -19,6 +20,8 @@ const STATUS_MESSAGES: Record<CreateTokenStatus, string> = {
 
 export default function CreateTokenPage() {
   const { create, status, error, result, reset } = useCreateToken();
+  const { network } = useNetwork();
+  const clusterParam = network === "devnet" ? "?cluster=devnet" : "";
   const [activeTab, setActiveTab] = useState<
     "basic" | "supply" | "social" | "authority"
   >("basic");
@@ -164,13 +167,13 @@ export default function CreateTokenPage() {
                 {
                   label: "MINT ADDRESS",
                   value: result.mintAddress,
-                  href: `https://solscan.io/token/${result.mintAddress}?cluster=devnet`,
+                  href: `https://solscan.io/token/${result.mintAddress}${clusterParam}`,
                   color: "var(--text)",
                 },
                 {
                   label: "TRANSACTION",
                   value: result.txSignature.slice(0, 32) + "...",
-                  href: `https://solscan.io/tx/${result.txSignature}?cluster=devnet`,
+                  href: `https://solscan.io/tx/${result.txSignature}${clusterParam}`,
                   color: "var(--accent)",
                 },
                 {
@@ -225,7 +228,7 @@ export default function CreateTokenPage() {
               }}
             >
               <a
-                href={`https://solscan.io/token/${result.mintAddress}?cluster=devnet`}
+                href={`https://solscan.io/token/${result.mintAddress}${clusterParam}`}
                 target="_blank"
                 rel="noreferrer"
                 style={{

@@ -1,12 +1,23 @@
 import { clusterApiUrl } from "@solana/web3.js";
 
 export const NETWORKS = {
-  mainnet:
-    process.env.NEXT_PUBLIC_SOLANA_RPC_MAINNET ||
-    "https://api.mainnet-beta.solana.com",
-  devnet: process.env.NEXT_PUBLIC_SOLANA_RPC_DEVNET || clusterApiUrl("devnet"),
-  testnet: clusterApiUrl("testnet"),
+  mainnet: {
+    name: "Mainnet",
+    endpoint:
+      process.env.NEXT_PUBLIC_SOLANA_RPC_MAINNET ||
+      "https://api.mainnet-beta.solana.com",
+    cluster: "mainnet-beta" as const,
+  },
+  devnet: {
+    name: "Devnet",
+    endpoint:
+      process.env.NEXT_PUBLIC_SOLANA_RPC_DEVNET ||
+      "https://api.devnet.solana.com",
+    cluster: "devnet" as const,
+  },
 };
+
+export const DEFAULT_NETWORK = "mainnet" as const;
 
 export const TREASURY_WALLET = process.env.NEXT_PUBLIC_TREASURY_WALLET || "";
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useCloneToken } from "@/hooks/useCloneToken";
+import { useNetwork } from "@/components/WalletProvider";
 import Link from "next/link";
 
 const TRENDING = [
@@ -40,6 +41,8 @@ const TRENDING = [
 export default function CloneTokenPage() {
   const { fetchMeta, clone, status, error, fetchedMeta, result, reset } =
     useCloneToken();
+    const { network } = useNetwork();
+    const clusterParam = network === "devnet" ? "?cluster=devnet" : "";
   const [mintInput, setMintInput] = useState("");
   const [selectedTrending, setSelectedTrending] = useState<string | null>(null);
   const [overrides, setOverrides] = useState({
@@ -171,13 +174,13 @@ export default function CloneTokenPage() {
                 {
                   label: "NEW MINT ADDRESS",
                   value: result.mintAddress,
-                  href: `https://solscan.io/token/${result.mintAddress}?cluster=devnet`,
+                  href: `https://solscan.io/token/${result.mintAddress}${clusterParam}`,
                   color: "var(--text)",
                 },
                 {
                   label: "TRANSACTION",
                   value: result.txSignature.slice(0, 32) + "...",
-                  href: `https://solscan.io/tx/${result.txSignature}?cluster=devnet`,
+                  href: `https://solscan.io/tx/${result.txSignature}${clusterParam}`,
                   color: "var(--accent)",
                 },
               ].map((item) => (
@@ -226,7 +229,7 @@ export default function CloneTokenPage() {
               }}
             >
               <a
-                href={`https://solscan.io/token/${result.mintAddress}?cluster=devnet`}
+                href={`https://solscan.io/token/${result.mintAddress}${clusterParam}`}
                 target="_blank"
                 rel="noreferrer"
                 style={{

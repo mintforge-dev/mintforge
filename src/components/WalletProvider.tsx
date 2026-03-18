@@ -1,75 +1,51 @@
 "use client";
 
 import {
-  FC,
-  ReactNode,
-  useMemo,
-  useState,
-  createContext,
-  useContext,
-} from "react";
-import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import {
-  PhantomWalletAdapter,
-  SolflareWalletAdapter,
-  CoinbaseWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { clusterApiUrl } from "@solana/web3.js";
-import { NETWORKS } from "@/lib/constants";
-import "@solana/wallet-adapter-react-ui/styles.css";
+import { useMemo, useState, createContext, useContext } from "react";
 
-type Network = "mainnet" | "devnet" | "testnet";
+type NetworkType = "mainnet" | "devnet";
 
 interface NetworkContextType {
-  network: Network;
-  setNetwork: (n: Network) => void;
+  network: NetworkType;
+  setNetwork: (n: NetworkType) => void;
   endpoint: string;
 }
 
-const NetworkContext = createContext<NetworkContextType>({
-  network: "devnet",
+export const NetworkContext = createContext<NetworkContextType>({
+  network: "mainnet",
   setNetwork: () => {},
-  endpoint: clusterApiUrl("devnet"),
+  endpoint:
+    process.env.NEXT_PUBLIC_SOLANA_RPC_MAINNET ||
+    "https://api.mainnet-beta.solana.com",
 });
 
 export const useNetwork = () => useContext(NetworkContext);
 
-const AppWalletProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [network, setNetwork] = useState<Network>("devnet");
+export default function AppWalletProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [network, setNetwork] = useState<NetworkType>("mainnet");
 
   const endpoint = useMemo(() => {
-    if (network === "mainnet") return NETWORKS.mainnet;
-    if (network === "devnet") return NETWORKS.devnet;
-    return clusterApiUrl("testnet");
+    return network === "mainnet"
+      ? process.env.NEXT_PUBLIC_SOLANA_RPC_MAINNET ||
+          "https://api.mainnet-beta.solana.com"
+      : process.env.NEXT_PUBLIC_SOLANA_RPC_DEVNET ||
+          "https://api.devnet.solana.com";
   }, [network]);
-
-  // Wallet adapter otomatis detect ekstensi yang terinstall di browser
-  const wallets = useMemo(
-    () => [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter(),
-      new CoinbaseWalletAdapter(),
-    ],
-    [],
-  );
-
-  // OKX, Backpack, Trust Wallet, dll otomatis terdeteksi via Wallet Standard
-  // tidak perlu import manual
 
   return (
     <NetworkContext.Provider value={{ network, setNetwork, endpoint }}>
       <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider wallets={wallets} autoConnect={false}>
-          <WalletModalProvider>{children}</WalletModalProvider>
+        <WalletProvider wallets={[]} autoConnect={false}>
+          {children}
         </WalletProvider>
       </ConnectionProvider>
     </NetworkContext.Provider>
   );
-};
-
-export default AppWalletProvider;
+}
