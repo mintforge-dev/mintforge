@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MintForge ⚒
+
+> Solana Token Factory — Create, Clone & Manage SPL Tokens
+
+[![Deploy](https://img.shields.io/badge/deploy-vercel-black)](https://mintforge.vercel.app)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
+## Features
+
+- ⚡ **Create Token** — Deploy SPL token in minutes
+- 🔥 **Clone Token** — Copy any token metadata
+- 💧 **Add Liquidity** — Raydium CPMM pools
+- 🔒 **Lock LP** — Via Streamflow (Mainnet)
+- 🛡 **Revoke Authority** — Mint, Freeze & Metadata
+- ✏️ **Creator Info** — Update token metadata
+
+## Tech Stack
+
+- Next.js 16 (App Router)
+- Solana web3.js + SPL Token
+- Metaplex Token Metadata
+- Pinata IPFS
+- Tailwind CSS
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
+\`\`\`bash
+git clone https://github.com/USERNAME/mintforge
+cd mintforge
+npm install
+cp .env.example .env.local
+# Fill in your env vars
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+\`\`\`
+
+## Environment Variables
+
+\`\`\`env
+NEXT_PUBLIC_SOLANA_RPC_MAINNET=
+NEXT_PUBLIC_SOLANA_RPC_DEVNET=
+NEXT_PUBLIC_PINATA_JWT=
+NEXT_PUBLIC_TREASURY_WALLET=
+\`\`\`
+
+## Security
+
+- No private keys stored
+- All transactions signed by user wallet
+- Open source & auditable
+- Uses only trusted Solana programs
+
+## License
+
+MIT
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🎯 Roadmap Selanjutnya
+```
+Phase 1 (sekarang) ✅
+├── Core token features
+├── Deploy production
+└── Basic UI polish
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Phase 2 (next)
+├── Custom domain
+├── Mainnet testing dengan SOL asli
+├── LP Lock via Streamflow Mainnet
+├── Raydium CPMM full integration
+└── Phantom trusted apps registration
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Phase 3 (future)
+├── Rewards/Referral system
+├── Token analytics dashboard
+├── Multi-wallet support
+└── Token scanner/checker tool
